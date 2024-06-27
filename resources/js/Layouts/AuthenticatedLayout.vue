@@ -5,7 +5,6 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import 'preline';
 import { Link } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
@@ -32,6 +31,12 @@ const showingNavigationDropdown = ref(false);
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
+                                </NavLink>
+                                <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
+                                    {{ $t('categories') }}
+                                </NavLink>
+                                <NavLink :href="route('sites.index')" :active="route().current('sites.index')">
+                                    {{ $t('sites') }}
                                 </NavLink>
                             </div>
                         </div>
@@ -145,7 +150,7 @@ const showingNavigationDropdown = ref(false);
             </header>
 
             <!-- Page Content -->
-            <main>
+            <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <slot />
             </main>
         </div>
