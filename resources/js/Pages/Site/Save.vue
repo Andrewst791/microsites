@@ -10,6 +10,10 @@ const props = defineProps({
     site: {
         type: Object,
     },
+    canEdit: {
+        type: Boolean,
+        default: false
+    },
     categories: {
         type: Array,
     },
@@ -112,7 +116,8 @@ const save = () => {
                                             label: $t('document_type'),
                                             options: options_document_types,
                                         }"
-                                        v-model="form.document_type" />
+                                        v-model="form.document_type"
+                                        :readonly="canEdit"/>
                                     </div>
                                     <!-- End Floating Input -->
                                 </div>
@@ -124,11 +129,13 @@ const save = () => {
                                     <div class="relative">
                                         <div class="max-w-sm">
                                             <Input :data="{
-                                                id: 'document',
-                                                label: $t('document'),
-                                                placeholder: $t('document')
-                                            }"
-                                            v-model="form.document"></Input>
+                                                    id: 'document',
+                                                    label: $t('document'),
+                                                    placeholder: $t('document')
+                                                }"
+                                                v-model="form.document"
+                                                :readonly="canEdit"
+                                            />
                                         </div>
                                     </div>
                                     <!-- End Floating Input -->
@@ -144,7 +151,8 @@ const save = () => {
                                                 label: $t('name'),
                                                 placeholder: $t('name')
                                             }"
-                                       v-model="form.name"/>
+                                       v-model="form.name"
+                                       :readonly="canEdit"/>
                                     </div>
                                     <!-- End Floating Input -->
                                 </div>
@@ -159,7 +167,8 @@ const save = () => {
                                                 label: $t('slug'),
                                                 placeholder: $t('slug')
                                             }"
-                                       v-model="form.slug"></Input>
+                                       v-model="form.slug"
+                                       :readonly="canEdit"></Input>
                                     </div>
                                     <!-- End Floating Input -->
                                 </div>
@@ -174,7 +183,8 @@ const save = () => {
                                             label: $tc('category', 1),
                                             options: options_categories
                                         }"
-                                        v-model="form.category_id"/>
+                                        v-model="form.category_id"
+                                        :readonly="canEdit"/>
                                     </div>
                                     <!-- End Floating Input -->
                                 </div>
@@ -182,7 +192,7 @@ const save = () => {
                             </div>
                             <!-- End Grid -->
                             <div class="mt-5">
-                                <button type="submit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                                <button type="submit" :disabled="!canEdit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
                                     <font-awesome-icon icon="fas fa-save" />
                                     {{ $t('save') }}
                                 </button>

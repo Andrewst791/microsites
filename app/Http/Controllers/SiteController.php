@@ -35,14 +35,18 @@ class SiteController extends Controller
 
     public function show(Site $site) : Response
     {
-        return Inertia::render('Site/Save', compact('site'));
+        $categories = Category::get();
+        $document_types = array_column(DocumentTypes::cases(), 'name');
+        $canEdit = false;
+        return Inertia::render('Site/Save', compact('site', 'categories', 'document_types', 'canEdit'));
     }
 
     public function edit(Site $site) : Response
     {
         $categories = Category::get();
         $document_types = array_column(DocumentTypes::cases(), 'name');
-        return Inertia::render('Site/Save', compact('site', 'categories', 'document_types'));
+        $canEdit = true;
+        return Inertia::render('Site/Save', compact('site', 'categories', 'document_types', 'canEdit'));
     }
 
     public function update(UpdateSiteRequest $request, Site $site) : RedirectResponse

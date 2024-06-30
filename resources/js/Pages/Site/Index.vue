@@ -45,15 +45,19 @@ const sitesWithActions = computed(() =>
 const createSite = () => {
     form.get(route('sites.create'));
 }
-const showEdit = (site_id) => {
-    console.log('showEdit', site_id);
-    form.get(route('sites.edit', {site: site_id}));
+const showEdit = (site_id, edit = false) => {
+    if(edit) {
+        form.get(route('sites.edit', {site: site_id}));
+    } else {
+        form.get(route('sites.show', {site: site_id}));
+    }
 }
 
 const deleteSite = (site_id) => {
     Swal.fire({
         title: "¿Seguro?",
         html: 'Esta acción eliminará el sitio',
+        icon: 'error',
         showDenyButton: true,
         showCancelButton: true,
         showConfirmButton: false,
@@ -122,13 +126,14 @@ const handleAction = (id, params) => {
                                         <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                                             Categoría
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                        <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                                             Tipo Documento
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                        <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                                             Documento
                                         </th>
-                                        <th>
+                                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                            Acciones
                                         </th>
                                     </tr>
                                 </thead>
@@ -149,11 +154,13 @@ const handleAction = (id, params) => {
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
                                             {{ site.document }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                            <button @click="showEdit(site.id)" class="py-1 px-2 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                            <button @click="showEdit(site.id)" class="py-1 px-2 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none">
+                                                <font-awesome-icon icon="fas fa-eye" />
+                                            </button>
+                                            <button @click="showEdit(site.id, true)" class="py-1 px-2 ml-2 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
                                                 <font-awesome-icon icon="fas fa-edit" />
                                             </button>
-
                                             <button @click="deleteSite(site.id)" class="py-1 px-2 ml-2 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">
                                                 <font-awesome-icon icon="fas fa-trash" />
                                             </button>
