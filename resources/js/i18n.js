@@ -5,6 +5,12 @@ const messages = {
     es: {
         close: 'Cerrar',
         save: 'Guardar',
+        cancel: 'Cancelar',
+
+        //Paginate
+        previous: 'Anterior',
+        next: 'Siguiente',
+        search: 'Buscar',
 
         //Modules
         categories: 'Categorias',
@@ -25,9 +31,11 @@ const messages = {
         log_in: 'Ingresar',
         profile: 'Perfil',
         log_out: 'Salir',
+        delete_account: 'Eliminar Cuenta',
 
         profile_information: 'Información de perfil',
         update_profile_information: 'Actualice la información de perfil y la dirección de correo electrónico de su cuenta.',
+        list_of_users: 'Listado de Usuarios',
     },
     // Agrega otros idiomas según sea necesario
 };

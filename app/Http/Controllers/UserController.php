@@ -5,16 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request) : Response
     {
-        $users = User::with('roles')->get();
+        $users = User::with('roles')
+            ->when($request->has('search'), function($query) use ($request) {
+                $query->where('name', 'REGEXP', $request->search)
+                    ->orWhere('email', 'REGEXP', $request->search);
+            })
+            ->paginate(10);
         return Inertia::render('User/Index', compact('users'));
     }
 
@@ -61,8 +69,9 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $user) : RedirectResponse
     {
-        //
+        $user->delete();
+        return redirect()->back();
     }
 }
