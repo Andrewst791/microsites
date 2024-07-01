@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
-import { watchEffect, ref } from "vue";
+import { watchEffect, ref, computed } from "vue";
 import Swal from "sweetalert2";
 import Button from "@/Components/Preline/Button.vue";
 
@@ -14,8 +14,13 @@ const props = defineProps({
     },
 });
 watchEffect(() => {
-    console.log(props.users);
+    // console.log(props.users);
 });
+
+const userWithRoles = computed(() => props.users.data.map(user => ({
+    ...user,
+    role: user.roles.map(role => role.name).join(', ')
+})));
 const hasNextPage = (page) => props.users.links.find(link => link.label == page)
 const getUrlPage = (page) => props.users.links.find(link => link.label == page)
 
@@ -111,7 +116,7 @@ const deleteUser = (user) => {
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
-                                    <tr v-for="(user, index) in users.data" :key="user.id">
+                                    <tr v-for="(user, index) in userWithRoles" :key="user.id">
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
                                             {{ user.name }}
                                         </td>
@@ -119,7 +124,7 @@ const deleteUser = (user) => {
                                             {{ user.email }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
-                                            {{ user.roles }}
+                                            {{ user.role }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                             <button @click="showEdit(user.id)" class="py-1 px-2 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none">
