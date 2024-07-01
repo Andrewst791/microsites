@@ -1,6 +1,7 @@
 <?php
 
 use App\Constants\DocumentTypes;
+use App\Constants\SiteTypes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,10 +17,13 @@ return new class extends Migration
         Schema::create('sites', function (Blueprint $table) {
             $table->id();
             $table->string('slug', 50)->unique();
-            $table->string('name', 100);
+            $table->string('name', 100)->index();
+            $table->text('logo')->nullable();
             $table->enum('document_type', array_column(DocumentTypes::cases(), 'name'));
-            $table->string('document', 20);
+            $table->enum('site_type', array_column(SiteTypes::cases(), 'name'));
+            $table->string('document', 20)->index();
             $table->foreignId('category_id')->constrained();
+            $table->timestamp('expires_at');
             $table->timestamp('enabled_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
