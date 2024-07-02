@@ -23,6 +23,7 @@ const messages = {
         //Propiedades modelos
         document: 'Documento',
         document_type: 'Tipo Documento',
+        site_type: 'Tipo de Sitio',
         name: 'Nombre',
         email: 'Email',
         password: 'Contraseña',
@@ -34,6 +35,9 @@ const messages = {
         log_out: 'Salir',
         delete_account: 'Eliminar Cuenta',
         role: 'Rol',
+        expires_at: 'Expira el',
+        logo: 'Logo',
+        url_logo: 'Ruta del logo',
 
         profile_information: 'Información de perfil',
         update_profile_information: 'Actualice la información de perfil y la dirección de correo electrónico de su cuenta.',
@@ -42,7 +46,11 @@ const messages = {
 
         Admin: 'Administrador',
         Guest: 'Invitado',
-        Customer: 'Cliente'
+        Customer: 'Cliente',
+
+        Invoice: 'Factura',
+        Subscription: 'Subscripcin',
+        Donation: 'Donación'
     },
     // Agrega otros idiomas según sea necesario
 };

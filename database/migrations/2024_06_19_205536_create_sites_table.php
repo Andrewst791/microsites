@@ -23,7 +23,7 @@ return new class extends Migration
             $table->enum('site_type', array_column(SiteTypes::cases(), 'name'));
             $table->string('document', 20)->index();
             $table->foreignId('category_id')->constrained();
-            $table->timestamp('expires_at');
+            $table->timestamp('expires_at')->nullable();
             $table->timestamp('enabled_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });

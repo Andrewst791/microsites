@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\DocumentTypes;
+use App\Constants\SiteTypes;
 use App\Models\Category;
 use App\Models\Site;
 use App\Http\Requests\StoreSiteRequest;
@@ -23,9 +24,10 @@ class SiteController extends Controller
     {
         $categories = Category::get();
         $document_types = array_column(DocumentTypes::cases(), 'name');
+        $site_types = array_column(SiteTypes::cases(), 'name');
         $site = new Site();
         $canEdit = true;
-        return Inertia::render('Site/Save', compact('site', 'categories', 'document_types', 'canEdit'));
+        return Inertia::render('Site/Save', compact('site', 'categories', 'document_types', 'site_types', 'canEdit'));
     }
 
     public function store(StoreSiteRequest $request) : RedirectResponse
@@ -38,8 +40,9 @@ class SiteController extends Controller
     {
         $categories = Category::get();
         $document_types = array_column(DocumentTypes::cases(), 'name');
+        $site_types = array_column(SiteTypes::cases(), 'name');
         $canEdit = false;
-        return Inertia::render('Site/Save', compact('site', 'categories', 'document_types', 'canEdit'));
+        return Inertia::render('Site/Save', compact('site', 'categories', 'document_types', 'site_types', 'canEdit'));
     }
 
     public function edit(Site $site) : Response
