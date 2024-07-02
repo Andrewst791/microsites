@@ -24,7 +24,8 @@ class SiteController extends Controller
         $categories = Category::get();
         $document_types = array_column(DocumentTypes::cases(), 'name');
         $site = new Site();
-        return Inertia::render('Site/Save', compact('site', 'categories', 'document_types'));
+        $canEdit = true;
+        return Inertia::render('Site/Save', compact('site', 'categories', 'document_types', 'canEdit'));
     }
 
     public function store(StoreSiteRequest $request) : RedirectResponse

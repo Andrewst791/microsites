@@ -34,5 +34,5 @@ RUN mkdir -p /home/$user/.composer && \
 
 # Set working directory
 WORKDIR /var/www
-
+RUN composer install
 USER $user
