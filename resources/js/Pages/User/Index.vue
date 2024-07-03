@@ -23,7 +23,7 @@ const userWithRoles = computed(() => props.users.data.map(user => ({
 })));
 const hasNextPage = (page) => props.users.links.find(link => link.label == page)
 const getUrlPage = (page) => props.users.links.find(link => link.label == page)
-
+const createUser = () => form.get(route('users.create'))
 const searchPosts = () => {
     let params = { page: 1 }
     if(search.value) {
@@ -66,6 +66,14 @@ const deleteUser = (user) => {
         }
     });
 }
+
+const showEdit = (user, edit = false) => {
+    if(edit) {
+        form.get(route('users.edit', {user: user.id}));
+    } else {
+        form.get(route('users.show', {user: user.id}));
+    }
+}
 </script>
 
 <template>
@@ -75,7 +83,7 @@ const deleteUser = (user) => {
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-neutral-200 leading-tight">
                 {{ $t('list_of_users') }}
-                <button @click="createSite" class="py-1 px-2 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                <button @click="createUser" class="py-1 px-2 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
                     <font-awesome-icon icon="fas fa-plus" />
                 </button>
             </h2>
@@ -127,10 +135,10 @@ const deleteUser = (user) => {
                                             {{ user.role }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                            <button @click="showEdit(user.id)" class="py-1 px-2 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none">
+                                            <button @click="showEdit(user)" class="py-1 px-2 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none">
                                                 <font-awesome-icon icon="fas fa-eye" />
                                             </button>
-                                            <button @click="showEdit(user.id, true)" class="py-1 px-2 ml-2 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                                            <button @click="showEdit(user, true)" class="py-1 px-2 ml-2 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
                                                 <font-awesome-icon icon="fas fa-edit" />
                                             </button>
                                             <button @click="deleteUser(user)" class="py-1 px-2 ml-2 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none">

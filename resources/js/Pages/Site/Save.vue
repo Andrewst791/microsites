@@ -17,7 +17,13 @@ const props = defineProps({
     categories: {
         type: Array,
     },
+    currencies: {
+        type: Array,
+    },
     document_types: {
+        type: Array,
+    },
+    site_types: {
         type: Array,
     }
 });
@@ -29,6 +35,9 @@ const form = useForm({
     document: props.site.document,
     document_type: props.site.document_type,
     category_id: props.site.category_id,
+    currency_id: props.site.currency_id,
+    expires_at: props.site.expires_at,
+    site_type: props.site.site_type,
 });
 
 const options_document_types = computed(() =>
@@ -48,35 +57,41 @@ const options_categories = computed(() =>
         return option;
     })
 );
+
+const options_currencies = computed(() =>
+    props.currencies.map(item => {
+        const option = {};
+        option.text = `${item.code} - ${item.name}`;
+        option.value = item.id;
+        return option;
+    })
+);
+
+const options_site_types = computed(() =>
+    props.site_types.map(item => {
+        const option = {};
+        option.text = item;
+        option.value = item;
+        return option;
+    })
+);
 const save = () => {
     if(props.site.id) {
         form.put(route('sites.update', props.site.id), {
-            // onFinish: () => form.get(route('sites.index')),
             onFinish: () => {
-                Swal.fire({
-                    title: 'Ok!',
-                    html: `Se ha actualizado correctamente el sitio <b>${props.site.name}</b>`,
-                    icon: "success"
-                });
+                if(!form.hasErrors) {
+                    Swal.fire({
+                        title: 'Ok!',
+                        html: `Se ha actualizado correctamente el sitio <b>${props.site.name}</b>`,
+                        icon: "success"
+                    });
+                }
             }
         });
     } else {
         form.post(route('sites.store'), {
-            // onFinish: () => form.get(route('sites.index')),
             onFinish: () => {
-                if(Array.isArray(Object.keys(form.errors)) && Object.keys(form.errors).length > 0) {
-                    let errors = '<ul>';
-                    Object.keys(form.errors).forEach(error => {
-                        errors = errors + `<li><b>${form.errors[error]}</b></li>`;
-                    });
-                    errors = errors + '</ul>';
-
-                    Swal.fire({
-                        title: 'Error!',
-                        html: `Se han presentado los siguientes errores: ${errors}`,
-                        icon: "error"
-                    });
-                } else {
+                if(!form.hasErrors) {
                     Swal.fire({
                         title: 'Ok!',
                         html: `Se ha creado correctamente el sitio <b>${form.name}</b>`,
@@ -116,6 +131,7 @@ const save = () => {
                                             label: $t('document_type'),
                                             options: options_document_types,
                                         }"
+                                        :error="form.errors.document_type"
                                         v-model="form.document_type"
                                         :readonly="canEdit"/>
                                     </div>
@@ -133,6 +149,7 @@ const save = () => {
                                                     label: $t('document'),
                                                     placeholder: $t('document')
                                                 }"
+                                               :error="form.errors.document"
                                                 v-model="form.document"
                                                 :readonly="canEdit"
                                             />
@@ -151,6 +168,7 @@ const save = () => {
                                                 label: $t('name'),
                                                 placeholder: $t('name')
                                             }"
+                                       :error="form.errors.name"
                                        v-model="form.name"
                                        :readonly="canEdit"/>
                                     </div>
@@ -167,8 +185,44 @@ const save = () => {
                                                 label: $t('slug'),
                                                 placeholder: $t('slug')
                                             }"
+                                       :error="form.errors.slug"
                                        v-model="form.slug"
                                        :readonly="canEdit"></Input>
+                                    </div>
+                                    <!-- End Floating Input -->
+                                </div>
+                                <!-- End Input Group -->
+
+                                <!-- Input Group -->
+                                <div>
+                                    <!-- Floating Input -->
+                                    <div class="relative">
+                                        <Input :data="{
+                                                id: 'expires_at',
+                                                label: $t('expires_at'),
+                                                placeholder: $t('expires_at'),
+                                                type: 'date'
+                                            }"
+                                               :error="form.errors.expires_at"
+                                               v-model="form.expires_at"
+                                               :readonly="canEdit"></Input>
+                                    </div>
+                                    <!-- End Floating Input -->
+                                </div>
+                                <!-- End Input Group -->
+
+                                <!-- Input Group -->
+                                <div>
+                                    <!-- Floating Input -->
+                                    <div class="relative">
+                                        <Select :data="{
+                                            id: 'site_type',
+                                            label: $tc('site_type', 1),
+                                            options: options_site_types
+                                        }"
+                                                :error="form.errors.site_type"
+                                                v-model="form.site_type"
+                                                :readonly="canEdit"/>
                                     </div>
                                     <!-- End Floating Input -->
                                 </div>
@@ -183,8 +237,42 @@ const save = () => {
                                             label: $tc('category', 1),
                                             options: options_categories
                                         }"
+                                        :error="form.errors.category_id"
                                         v-model="form.category_id"
                                         :readonly="canEdit"/>
+                                    </div>
+                                    <!-- End Floating Input -->
+                                </div>
+                                <!-- End Input Group -->
+
+                                <!-- Input Group -->
+                                <div class="relative col-span-full">
+                                    <!-- Floating Input -->
+                                    <div class="relative">
+                                        <Select :data="{
+                                            id: 'currency',
+                                            label: $tc('currency', 1),
+                                            options: options_currencies
+                                        }"
+                                                :error="form.errors.currency_id"
+                                                v-model="form.currency_id"
+                                                :readonly="canEdit"/>
+                                    </div>
+                                    <!-- End Floating Input -->
+                                </div>
+                                <!-- End Input Group -->
+
+                                <!-- Input Group -->
+                                <div class="relative col-span-full">
+                                    <!-- Floating Input -->
+                                    <div class="relative">
+                                        <Input :data="{
+                                            id: 'logo',
+                                            label: $tc('logo', 1),
+                                            placeholder: 'https://domain.com/route_img.png',
+                                        }"
+                                                v-model="form.logo"
+                                                :readonly="canEdit"/>
                                     </div>
                                     <!-- End Floating Input -->
                                 </div>

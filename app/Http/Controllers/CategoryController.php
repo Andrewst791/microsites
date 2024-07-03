@@ -20,7 +20,8 @@ class CategoryController extends Controller
     public function create()
     {
         $category = new Category();
-        return Inertia::render('Category/Save', compact('category'));
+        $canEdit = true;
+        return Inertia::render('Category/Save', compact('category', 'canEdit'));
     }
 
     public function store(StoreCategoryRequest $request)
@@ -35,7 +36,8 @@ class CategoryController extends Controller
 
     public function edit(Category $category) : Response
     {
-        return Inertia::render('Category/Save', compact('category'));
+        $canEdit = true;
+        return Inertia::render('Category/Save', compact('category', 'canEdit'));
     }
 
     public function update(UpdateCategoryRequest $request, Category $category)

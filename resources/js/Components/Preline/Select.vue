@@ -6,6 +6,7 @@ const value = defineModel();
 const props = defineProps({
     data: { type: Object },
     readonly: { type: Boolean, default: false },
+    error: { type: String, default: '' },
 })
 const emit = defineEmits(['update:valueModel']);
 const emitUpdate = () => {
@@ -24,6 +25,9 @@ const emitUpdate = () => {
             {{ option.text }}
         </option>
     </select>
+    <p v-if="error" class="text-sm text-red-600 mt-2" id="hs-validation-name-error-helper">
+        {{ error }}
+    </p>
 </template>
 
 <style scoped>

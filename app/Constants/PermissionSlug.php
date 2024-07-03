@@ -8,7 +8,7 @@ final class PermissionSlug {
     public const string SITES_VIEW = 'sites.view';
     public const string SITES_UPDATE = 'sites.update';
     public const string SITES_CREATE = 'sites.create';
-    public const string SITES_DELETE = 'sites.destroy';
+    public const string SITES_DELETE = 'sites.delete';
     public const string CATEGORIES_VIEW_ANY = 'categories.viewAny';
     public const string CATEGORIES_VIEW = 'categories.view';
     public const string CATEGORIES_UPDATE = 'categories.update';

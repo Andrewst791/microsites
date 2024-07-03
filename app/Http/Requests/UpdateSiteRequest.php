@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Constants\DocumentTypes;
+use App\Constants\SiteTypes;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -32,6 +33,12 @@ class UpdateSiteRequest extends FormRequest
             ],
             'document'      => 'required|string|max:20',
             'category_id'   => 'required|integer|exists:categories,id',
+            'currency_id'   => 'required|integer|exists:currencies,id',
+            'expires_at'    => 'nullable|date',
+            'site_type'     => ['required',
+                Rule::in(array_column(SiteTypes::cases(), 'name'))
+            ],
+            'logo'          => 'nullable|url',
         ];
     }
 }

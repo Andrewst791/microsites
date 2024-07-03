@@ -8,6 +8,10 @@ const props = defineProps({
     category: {
         type: Object
     },
+    canEdit: {
+        type: Boolean,
+        default: false
+    }
 });
 
 const form = useForm({
@@ -67,7 +71,8 @@ const save = () => {
                                                 label: $t('name'),
                                                 placeholder: $t('name')
                                             }"
-                                               v-model="form.name"/>
+                                               v-model="form.name"
+                                               :readonly="canEdit"/>
                                     </div>
                                     <!-- End Floating Input -->
                                 </div>

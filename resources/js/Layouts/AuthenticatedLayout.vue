@@ -1,12 +1,18 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import {usePage} from "@inertiajs/vue3";
 import { Link } from '@inertiajs/vue3';
-
+const page = usePage();
+const permissions = computed(() => page.props.auth.permissions);
+const hasPermission = (permission) => {
+    return permissions.value.includes(permission);
+};
+console.log('page', permissions)
 const showingNavigationDropdown = ref(false);
 </script>
 
@@ -32,14 +38,17 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
+                                <NavLink v-if="hasPermission('categories.viewAny')" :href="route('categories.index')" :active="route().current('categories.index')">
                                     {{ $t('categories') }}
                                 </NavLink>
-                                <NavLink :href="route('sites.index')" :active="route().current('sites.index')">
+                                <NavLink v-if="hasPermission('sites.viewAny')" :href="route('sites.index')" :active="route().current('sites.index')">
                                     {{ $t('sites') }}
                                 </NavLink>
-                                <NavLink :href="route('users.index')" :active="route().current('users.index')">
-                                    Usuarios
+                                <NavLink v-if="hasPermission('users.viewAny')" :href="route('users.index')" :active="route().current('users.index')">
+                                    {{ $t('users') }}
+                                </NavLink>
+                                <NavLink v-if="hasPermission('roles.viewAny')" :href="route('roles.index')" :active="route().current('roles.index')">
+                                    {{ $t('roles') }}
                                 </NavLink>
                             </div>
                         </div>
