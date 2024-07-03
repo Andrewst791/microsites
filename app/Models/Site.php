@@ -9,6 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Site extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'slug',
+        'category_id',
+        'currency_id',
+        'document',
+        'document_type'
+    ];
 
     public function category() : BelongsTo
     {

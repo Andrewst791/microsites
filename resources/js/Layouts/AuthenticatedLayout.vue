@@ -1,13 +1,18 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import 'preline';
+import {usePage} from "@inertiajs/vue3";
 import { Link } from '@inertiajs/vue3';
-
+const page = usePage();
+const permissions = computed(() => page.props.auth.permissions);
+const hasPermission = (permission) => {
+    return permissions.value.includes(permission);
+};
+console.log('page', permissions)
 const showingNavigationDropdown = ref(false);
 </script>
 
@@ -33,6 +38,18 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
+                                <NavLink v-if="hasPermission('categories.viewAny')" :href="route('categories.index')" :active="route().current('categories.index')">
+                                    {{ $t('categories') }}
+                                </NavLink>
+                                <NavLink v-if="hasPermission('sites.viewAny')" :href="route('sites.index')" :active="route().current('sites.index')">
+                                    {{ $t('sites') }}
+                                </NavLink>
+                                <NavLink v-if="hasPermission('users.viewAny')" :href="route('users.index')" :active="route().current('users.index')">
+                                    {{ $t('users') }}
+                                </NavLink>
+                                <NavLink v-if="hasPermission('roles.viewAny')" :href="route('roles.index')" :active="route().current('roles.index')">
+                                    {{ $t('roles') }}
+                                </NavLink>
                             </div>
                         </div>
 
@@ -46,7 +63,7 @@ const showingNavigationDropdown = ref(false);
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {{ $page.props.auth.user.name }}
+                                                <font-awesome-icon icon="fas fa-fw fa-user" /> &nbsp; {{ $page.props.auth.user.name }}
 
                                                 <svg
                                                     class="ms-2 -me-0.5 h-4 w-4"
@@ -65,9 +82,9 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                        <DropdownLink :href="route('profile.edit')"> {{ $t('profile') }} </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
+                                            {{ $t('log_out') }}
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
@@ -145,7 +162,7 @@ const showingNavigationDropdown = ref(false);
             </header>
 
             <!-- Page Content -->
-            <main>
+            <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <slot />
             </main>
         </div>

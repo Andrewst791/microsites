@@ -16,7 +16,7 @@ class SiteFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'slug' => $this->faker->unique()->slug(1),
-            'document_type' => $this->faker->randomElement([DocumentTypes::cases()]),
+            'document_type' => $this->faker->randomElement(DocumentTypes::cases()),
             'document' => $this->faker->numerify('##########'),
             'category_id' => Category::all()->random()->id,
         ];

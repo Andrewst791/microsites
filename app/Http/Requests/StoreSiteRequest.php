@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Constants\DocumentTypes;
+use App\Constants\SiteTypes;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreSiteRequest extends FormRequest
 {
@@ -11,7 +14,7 @@ class StoreSiteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +25,20 @@ class StoreSiteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'          => 'required|string|max:100',
+            'slug'          => 'required|string|max:50',
+            'document_type' => [
+                'required',
+                Rule::in(array_column(DocumentTypes::cases(), 'name'))
+            ],
+            'document'      => 'required|string|max:20',
+            'category_id'   => 'required|integer|exists:categories,id',
+            'currency_id'   => 'required|integer|exists:currencies,id',
+            'expires_at'    => 'nullable|date',
+            'site_type'     => ['required',
+                Rule::in(array_column(SiteTypes::cases(), 'name'))
+            ],
+            'logo'          => 'nullable|url',
         ];
     }
 }
