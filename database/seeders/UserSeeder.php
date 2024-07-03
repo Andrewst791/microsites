@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             'password'  => Hash::make('Cliente')
         ]);
         $customer->assignRole('Customer');
-        $customer->assignRole('Guest');
+//        $customer->assignRole('Guest');
         $guest = User::factory()->create([
             'name'      => 'Usuario Invitado',
             'email'     => 'invitado@example.com',

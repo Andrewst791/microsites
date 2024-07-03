@@ -13,6 +13,7 @@ class Site extends Model
         'name',
         'slug',
         'category_id',
+        'currency_id',
         'document',
         'document_type'
     ];

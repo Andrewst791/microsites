@@ -16,6 +16,8 @@ const messages = {
         categories: 'Categorias',
         category: 'Categoría | Categorias',
         sites: 'Sitios',
+        users: 'Usuarios',
+        roles: 'Roles',
         "register-site": 'Registrar Sitio',
         "register-category": 'Registrar Categoría',
         slug: 'Nombre Corto',
@@ -38,6 +40,7 @@ const messages = {
         expires_at: 'Expira el',
         logo: 'Logo',
         url_logo: 'Ruta del logo',
+        currency: 'Tipo de Moneda',
 
         profile_information: 'Información de perfil',
         update_profile_information: 'Actualice la información de perfil y la dirección de correo electrónico de su cuenta.',

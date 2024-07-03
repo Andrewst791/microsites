@@ -45,10 +45,10 @@ const showingNavigationDropdown = ref(false);
                                     {{ $t('sites') }}
                                 </NavLink>
                                 <NavLink v-if="hasPermission('users.viewAny')" :href="route('users.index')" :active="route().current('users.index')">
-                                    Roles
+                                    {{ $t('users') }}
                                 </NavLink>
                                 <NavLink v-if="hasPermission('roles.viewAny')" :href="route('roles.index')" :active="route().current('roles.index')">
-                                    Roles
+                                    {{ $t('roles') }}
                                 </NavLink>
                             </div>
                         </div>

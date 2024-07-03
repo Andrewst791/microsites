@@ -17,6 +17,9 @@ const props = defineProps({
     categories: {
         type: Array,
     },
+    currencies: {
+        type: Array,
+    },
     document_types: {
         type: Array,
     },
@@ -32,6 +35,7 @@ const form = useForm({
     document: props.site.document,
     document_type: props.site.document_type,
     category_id: props.site.category_id,
+    currency_id: props.site.currency_id,
     expires_at: props.site.expires_at,
     site_type: props.site.site_type,
 });
@@ -49,6 +53,15 @@ const options_categories = computed(() =>
     props.categories.map(item => {
         const option = {};
         option.text = item.name;
+        option.value = item.id;
+        return option;
+    })
+);
+
+const options_currencies = computed(() =>
+    props.currencies.map(item => {
+        const option = {};
+        option.text = `${item.code} - ${item.name}`;
         option.value = item.id;
         return option;
     })
@@ -231,6 +244,24 @@ const save = () => {
                                     <!-- End Floating Input -->
                                 </div>
                                 <!-- End Input Group -->
+
+                                <!-- Input Group -->
+                                <div class="relative col-span-full">
+                                    <!-- Floating Input -->
+                                    <div class="relative">
+                                        <Select :data="{
+                                            id: 'currency',
+                                            label: $tc('currency', 1),
+                                            options: options_currencies
+                                        }"
+                                                :error="form.errors.currency_id"
+                                                v-model="form.currency_id"
+                                                :readonly="canEdit"/>
+                                    </div>
+                                    <!-- End Floating Input -->
+                                </div>
+                                <!-- End Input Group -->
+
                                 <!-- Input Group -->
                                 <div class="relative col-span-full">
                                     <!-- Floating Input -->
