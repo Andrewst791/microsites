@@ -52,9 +52,10 @@ class SiteController extends Controller
     {
         $categories = Category::get();
         $currencies = Currency::get();
+        $site_types = array_column(SiteTypes::cases(), 'name');
         $document_types = array_column(DocumentTypes::cases(), 'name');
         $canEdit = true;
-        return Inertia::render('Site/Save', compact('site', 'categories', 'currencies', 'document_types', 'canEdit'));
+        return Inertia::render('Site/Save', compact('site', 'categories', 'currencies', 'site_types', 'document_types', 'canEdit'));
     }
 
     public function update(UpdateSiteRequest $request, Site $site) : RedirectResponse
