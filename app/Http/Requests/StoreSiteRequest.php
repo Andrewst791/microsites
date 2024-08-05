@@ -38,6 +38,7 @@ class StoreSiteRequest extends FormRequest
             'site_type'     => ['required',
                 Rule::in(array_column(SiteTypes::cases(), 'name'))
             ],
+            'fields'        => 'nullable',
             'logo'          => 'nullable|url',
         ];
     }

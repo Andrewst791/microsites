@@ -38,6 +38,7 @@ class UpdateSiteRequest extends FormRequest
             'site_type'     => ['required',
                 Rule::in(array_column(SiteTypes::cases(), 'name'))
             ],
+            'fields'        => 'nullable|array',
             'logo'          => 'nullable|url',
         ];
     }
