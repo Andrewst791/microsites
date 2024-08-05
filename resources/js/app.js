@@ -8,15 +8,15 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import i18n from "@/i18n.js";
 import FontAwesomeIcon from './fontawesome';
 import 'preline';
-import {HSDropdown} from 'preline';
+import {HSStaticMethods} from 'preline';
 
 // First init element when page load
-HSDropdown.autoInit()
+HSStaticMethods.autoInit()
 
 // Re-init element when page change through Inertia route
 const observer = new MutationObserver((mutationsList) => {
     for (const mutation of mutationsList) {
-        HSDropdown.autoInit()
+        HSStaticMethods.autoInit()
     }
 });
 

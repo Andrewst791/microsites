@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\DocumentTypes;
+use App\Constants\InputType;
 use App\Constants\SiteTypes;
 use App\Models\Category;
 use App\Models\Currency;
@@ -28,8 +29,9 @@ class SiteController extends Controller
         $document_types = array_column(DocumentTypes::cases(), 'name');
         $site_types = array_column(SiteTypes::cases(), 'name');
         $site = new Site();
+        $input_types = array_column(InputType::cases(), 'name');
         $canEdit = true;
-        return Inertia::render('Site/Save', compact('site', 'categories', 'currencies', 'document_types', 'site_types', 'canEdit'));
+        return Inertia::render('Site/Save', compact('site', 'categories', 'currencies', 'document_types', 'site_types', 'canEdit', 'input_types'));
     }
 
     public function store(StoreSiteRequest $request) : RedirectResponse
@@ -44,8 +46,9 @@ class SiteController extends Controller
         $currencies = Currency::get();
         $document_types = array_column(DocumentTypes::cases(), 'name');
         $site_types = array_column(SiteTypes::cases(), 'name');
+        $input_types = array_column(InputType::cases(), 'name');
         $canEdit = false;
-        return Inertia::render('Site/Save', compact('site', 'categories', 'currencies', 'document_types', 'site_types', 'canEdit'));
+        return Inertia::render('Site/Save', compact('site', 'categories', 'currencies', 'document_types', 'site_types', 'canEdit', 'input_types'));
     }
 
     public function edit(Site $site) : Response
@@ -55,13 +58,16 @@ class SiteController extends Controller
         $site_types = array_column(SiteTypes::cases(), 'name');
         $document_types = array_column(DocumentTypes::cases(), 'name');
         $canEdit = true;
-        return Inertia::render('Site/Save', compact('site', 'categories', 'currencies', 'site_types', 'document_types', 'canEdit'));
+        $input_types = array_column(InputType::cases(), 'name');
+        return Inertia::render('Site/Save', compact('site', 'categories', 'currencies', 'site_types', 'document_types', 'canEdit', 'input_types'));
     }
 
     public function update(UpdateSiteRequest $request, Site $site) : RedirectResponse
     {
+//        dd($request->validated());
         $site->update($request->validated());
-        return redirect()->to(route('sites.index'));
+//        return redirect()->to(route('sites.index'));
+        return redirect()->back();
     }
 
     public function destroy(Site $site) : RedirectResponse
