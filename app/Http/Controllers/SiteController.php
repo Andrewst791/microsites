@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Site\StoreAction;
+use App\Actions\Site\UpdateAction;
 use App\Constants\DocumentTypes;
 use App\Constants\InputType;
 use App\Constants\SiteTypes;
@@ -34,9 +36,9 @@ class SiteController extends Controller
         return Inertia::render('Site/Save', compact('site', 'categories', 'currencies', 'document_types', 'site_types', 'canEdit', 'input_types'));
     }
 
-    public function store(StoreSiteRequest $request) : RedirectResponse
+    public function store(StoreSiteRequest $request, StoreAction $storeAction) : RedirectResponse
     {
-        Site::create($request->validated());
+        $storeAction->execute($request->validated());
         return redirect()->to(route('sites.index'));
     }
 
@@ -62,11 +64,10 @@ class SiteController extends Controller
         return Inertia::render('Site/Save', compact('site', 'categories', 'currencies', 'site_types', 'document_types', 'canEdit', 'input_types'));
     }
 
-    public function update(UpdateSiteRequest $request, Site $site) : RedirectResponse
+    public function update(UpdateSiteRequest $request, Site $site, UpdateAction $updateAction) : RedirectResponse
     {
-//        dd($request->validated());
-        $site->update($request->validated());
-//        return redirect()->to(route('sites.index'));
+//        $site->update($request->validated());
+        $updateAction->execute($site, $request->validated());
         return redirect()->back();
     }
 
@@ -74,5 +75,12 @@ class SiteController extends Controller
     {
         $site->delete();
         return redirect()->back();
+    }
+
+    public function payment(string|int $slugId) : Response
+    {
+        $site = Site::findBySlugOrId($slugId)->firstOrFail();;
+        $site->load(['category', 'currency']);
+        return Inertia::render('Site/Payment', compact('site'));
     }
 }

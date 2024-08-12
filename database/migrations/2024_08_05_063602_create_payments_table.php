@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedInteger('process_identifier')->nullable();
             $table->dateTime('expiration')->nullable();
             $table->json('fields_data')->nullable();
-            $table->foreignId('microsite_id')->constrained();
+            $table->foreignId('site_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

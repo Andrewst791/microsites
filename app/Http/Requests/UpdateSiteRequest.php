@@ -25,6 +25,7 @@ class UpdateSiteRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id'            => 'exists:sites,id',
             'name'          => 'required|string|max:100',
             'slug'          => 'required|string|max:50',
             'document_type' => [

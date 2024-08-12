@@ -26,7 +26,7 @@ class StoreSiteRequest extends FormRequest
     {
         return [
             'name'          => 'required|string|max:100',
-            'slug'          => 'required|string|max:50',
+//            'slug'          => 'required|string|max:50',
             'document_type' => [
                 'required',
                 Rule::in(array_column(DocumentTypes::cases(), 'name'))

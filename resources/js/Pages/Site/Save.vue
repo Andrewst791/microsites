@@ -50,6 +50,7 @@ const form = useForm({
     currency_id: props.site.currency_id,
     expires_at: props.site.expires_at,
     site_type: props.site.site_type,
+    logo: props.site.logo,
     fields: props.site.fields ?? {},
 });
 

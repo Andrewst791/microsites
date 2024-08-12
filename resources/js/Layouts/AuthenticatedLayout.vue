@@ -52,6 +52,20 @@ const showingNavigationDropdown = ref(false);
                             </div>
                         </div>
 
+                        <div v-if="!$page.props.auth.user" class="hidden sm:flex sm:items-center sm:ms-6">
+                            <!-- Settings Dropdown -->
+                            <div class="ms-3 relative">
+                                <span class="inline-flex rounded-md">
+                                    <Link :href="route('login')" class="inline-flex items-center px-3 py-2
+                                        border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500
+                                        dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300
+                                        focus:outline-none transition ease-in-out duration-150">
+                                        <font-awesome-icon icon="fas fa-fw fa-sign-in-alt" /> &nbsp; Login
+                                    </Link>
+                                </span>
+                            </div>
+                        </div>
+
                         <div v-if="$page.props.auth.user" class="hidden sm:flex sm:items-center sm:ms-6">
                             <!-- Settings Dropdown -->
                             <div class="ms-3 relative">

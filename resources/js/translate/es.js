@@ -61,6 +61,9 @@ const spanish = {
     action: 'Acción',
     placeholder: 'Placeholder',
     label: 'Etiqueta',
-    go_to_pay: 'Ir a pagar'
+    go_to_pay: 'Ir a pagar',
+    do_payment: 'Realizar Pago',
+    contact_data: 'Datos de Contacto',
+    please_contact_data: 'Por favor diligencia los siguientes datos de contacto para realizar el pago',
 }
 export default spanish

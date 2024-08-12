@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('sites', SiteController::class);
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
+
+    Route::get('sites/{slugId}/payment', [SiteController::class, 'payment'])->name('sites.payment');
 });
 
 require __DIR__ . '/auth.php';

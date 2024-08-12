@@ -11,13 +11,15 @@ class Site extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
         'slug',
+        'name',
+        'logo',
+        'document_type',
+        'site_type',
+        'document',
         'category_id',
         'currency_id',
-        'document',
-        'document_type',
-        'fields'
+        'fields',
     ];
 
     public function category() : BelongsTo
@@ -25,10 +27,22 @@ class Site extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function currency() : BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
     protected function casts(): array
     {
         return [
             'fields' => AsArrayObject::class,
         ];
+    }
+
+    public function scopeFindBySlugOrId($query, $identifier)
+    {
+        return is_numeric($identifier)
+            ? $query->where('id', $identifier)
+            : $query->where('slug', $identifier);
     }
 }
