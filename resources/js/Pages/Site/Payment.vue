@@ -1,8 +1,10 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Head, Link, useForm, usePage } from "@inertiajs/vue3";
 import {computed, onMounted, ref} from "vue";
 import Input from "@/Components/Preline/Input.vue";
+const page = usePage();
+import Swal from "sweetalert2";
 
 const props = defineProps({
     site: {
@@ -16,14 +18,15 @@ const fields_site = computed(() => {
 const form = useForm({
     reference:          null,
     description:        null,
-    amount:             null,
+    amount:             0,
     currency_id:        props.site.currency_id,
-    status:             null,
-    gateway:            null,
+    status:             'PENDING',
+    gateway:            'placetopay',
     process_identifier: null,
     expiration:         props.site.expires_at,
     fields_data:        getFieldsData(),
     site_id:            props.site.id,
+    user_id:            page.props.auth.user.id
 });
 
 function getFieldsData (){
@@ -31,17 +34,30 @@ function getFieldsData (){
     for(const field in props.site.fields) {
         field_data[field] = null;
     }
-    field_data['amount'] = 0;
     return field_data;
 }
 
 onMounted(() => {
     console.log(form);
-})
+});
+
+const save = () => {
+    form.post(route('payments.store'), {
+        onError: () => {
+            console.log('error', form);
+        },
+        onSuccess: () => {
+            console.log('success', form);
+        },
+        onFinish: () => {
+            console.log('finish', form);
+        }
+    });
+}
 </script>
 
 <template>
-    <Head title="Sites" />
+    <Head title="Realizar Pago" />
 
     <AuthenticatedLayout>
         <!-- Card Section -->
@@ -57,7 +73,7 @@ onMounted(() => {
                     </p>
                 </div>
 
-                <form>
+                <form @submit.prevent="save">
                     <!-- Section -->
                     <div class="py-2 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-neutral-700 dark:first:border-transparent">
                         <label for="af-payment-billing-contact" class="inline-block text-md font-medium dark:text-white">
@@ -82,24 +98,24 @@ onMounted(() => {
                                                 label: 'Valor a Pagar',
                                                 type: 'number'
                                             }"
-                                   v-model="form.fields_data['amount']"
+                                   v-model="form.amount"
                                    :readonly="true"
                             />
                         </div>
                     </div>
                     <!-- End Section -->
+                    <div class="mt-5 flex justify-end gap-x-2">
+                        <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                            {{ $t('cancel') }}
+                            <font-awesome-icon icon="fas fa-times-circle" />
+                        </button>
+                        <button type="submit" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                            {{ $t('go_to_pay') }}
+                            <font-awesome-icon icon="fas fa-arrow-alt-circle-right" />
+                        </button>
+                    </div>
                 </form>
 
-                <div class="mt-5 flex justify-end gap-x-2">
-                    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-                        {{ $t('cancel') }}
-                        <font-awesome-icon icon="fas fa-times-circle" />
-                    </button>
-                    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
-                        {{ $t('go_to_pay') }}
-                        <font-awesome-icon icon="fas fa-arrow-alt-circle-right" />
-                    </button>
-                </div>
             </div>
             <!-- End Card -->
         </div>

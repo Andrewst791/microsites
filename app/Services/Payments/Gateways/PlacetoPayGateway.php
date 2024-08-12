@@ -55,7 +55,7 @@ class PlacetoPayGateway implements PaymentGateway
             'surname' => $data['last_name'],
             'email' => $data['email'],
             'documentType' => $data['document_type'],
-            'document' => $data['document_number'],
+            'document' => $data['document'],
         ];
 
         return $this;
@@ -103,7 +103,7 @@ class PlacetoPayGateway implements PaymentGateway
         } catch (\Exception $e) {
             Log::error('PlacetoPay exception', ['message' => $e->getMessage()]);
 
-            return new PaymentResponse(0, '', 'exception', $message);
+            return new PaymentResponse(0, '', 'exception', $e->getMessage());
         }
     }
 

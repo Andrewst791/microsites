@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sites', function (Blueprint $table) {
-            $table->json('fields')->nullable()->after('currency_id');
+            $table->json('fields')->nullable()->after('currency_id')->default('{"name": {"type": "TEXT", "label": "Nombres", "required": true, "placeholder": "Nombres"}, "email": {"type": "EMAIL", "label": "Email", "required": true, "placeholder": "Email"}, "document": {"type": "TEXT", "label": "Documento", "required": true, "placeholder": "Documento"}, "last_name": {"type": "TEXT", "label": "Apellidos", "required": true, "placeholder": "Apellidos"}, "document_type": {"type": "TEXT", "label": "Tipo Documento", "required": true, "placeholder": "Tipo Documento"}}');
         });
     }
 

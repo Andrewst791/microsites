@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
@@ -27,6 +28,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('roles', RoleController::class);
 
     Route::get('sites/{slugId}/payment', [SiteController::class, 'payment'])->name('sites.payment');
+
+    Route::resource('payments', PaymentController::class);
+//    Route::get('payments/{payment}', [PaymentController::class, 'store'])->name('payments.store');
+//    Route::post('payments', [PaymentController::class, 'store'])->name('payments.store');
 });
 
 require __DIR__ . '/auth.php';

@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('reference')->unique();
-            $table->string('description', 100);
-            $table->unsignedBigInteger('amount');
+            $table->string('reference')->nullable()->unique();
+            $table->string('description', 100)->nullable();
+            $table->float('amount');
             $table->foreignId('currency_id')->constrained();
             $table->enum('status', PaymentStatus::toArray());
             $table->enum('gateway', PaymentGateway::toArray());

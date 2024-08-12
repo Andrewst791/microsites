@@ -51,7 +51,7 @@ const form = useForm({
     expires_at: props.site.expires_at,
     site_type: props.site.site_type,
     logo: props.site.logo,
-    fields: props.site.fields ?? {},
+    fields: props.site.fields ?? {"name": {"type": "TEXT", "label": "Nombres", "required": true, "placeholder": "Nombres"}, "email": {"type": "EMAIL", "label": "Email", "required": true, "placeholder": "Email"}, "document": {"type": "TEXT", "label": "Documento", "required": true, "placeholder": "Documento"}, "last_name": {"type": "TEXT", "label": "Apellidos", "required": true, "placeholder": "Apellidos"}, "document_type": {"type": "TEXT", "label": "Tipo Documento", "required": true, "placeholder": "Tipo Documento"}},
 });
 
 const options_document_types = computed(() =>
