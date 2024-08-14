@@ -72,5 +72,7 @@ const spanish = {
     status: 'Estado',
     reference_to_pay: 'Referencia de pago',
     data_payment: 'Datos adicionales del Pago',
+    my_payments: 'Mis Pagos',
+    list_payments: 'Listado de pagos realizados en los diferentes sitios',
 }
 export default spanish

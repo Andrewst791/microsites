@@ -17,7 +17,8 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        //
+        $payments = Payment::with('currency', 'site')->get();
+        return Inertia::render('Payment/Index', compact('payments'));
     }
 
     public function create()

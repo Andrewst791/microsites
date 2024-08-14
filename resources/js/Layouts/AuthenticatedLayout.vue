@@ -49,6 +49,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink v-if="hasPermission('roles.viewAny')" :href="route('roles.index')" :active="route().current('roles.index')">
                                     {{ $t('roles') }}
                                 </NavLink>
+                                <NavLink v-if="$page.props.auth.user" :href="route('payments.index')" :active="route().current('payments.index')">
+                                    {{ $t('my_payments') }}
+                                </NavLink>
                             </div>
                         </div>
 
