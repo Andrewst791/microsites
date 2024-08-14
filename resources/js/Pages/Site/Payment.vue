@@ -104,10 +104,12 @@ const save = () => {
                     </div>
                     <!-- End Section -->
                     <div class="mt-5 flex justify-end gap-x-2">
-                        <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-                            {{ $t('cancel') }}
-                            <font-awesome-icon icon="fas fa-times-circle" />
-                        </button>
+                        <a type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                            <Link :href="route('home')">
+                                {{ $t('cancel') }}
+                                <font-awesome-icon icon="fas fa-times-circle" />
+                            </Link>
+                        </a>
                         <button type="submit" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
                             {{ $t('go_to_pay') }}
                             <font-awesome-icon icon="fas fa-arrow-alt-circle-right" />
