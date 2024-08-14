@@ -45,4 +45,12 @@ class Site extends Model
             ? $query->where('id', $identifier)
             : $query->where('slug', $identifier);
     }
+
+    public function scopeGetSitesByRole($query, User $user)
+    {
+        $role = $user->roles()->first();
+        return $query->when($role && $role->name === 'Customer', function ($query) use ($user) {
+            return $query->where('user_id', $user->id);
+        });
+    }
 }

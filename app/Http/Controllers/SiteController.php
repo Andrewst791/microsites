@@ -13,6 +13,7 @@ use App\Models\Site;
 use App\Http\Requests\StoreSiteRequest;
 use App\Http\Requests\UpdateSiteRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -20,7 +21,10 @@ class SiteController extends Controller
 {
     public function index() : Response
     {
-        $sites = Site::with('category')->get();
+        $user = Auth::user();
+        $sites = Site::with('category')
+            ->getSitesByRole($user)
+            ->get();
         return Inertia::render('Site/Index', compact('sites'));
     }
 

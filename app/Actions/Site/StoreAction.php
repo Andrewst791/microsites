@@ -2,6 +2,7 @@
 namespace App\Actions\Site;
 
 use App\Models\Site;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class StoreAction
@@ -18,6 +19,7 @@ class StoreAction
         $site->category_id      = $data['category_id'];
         $site->currency_id      = $data['currency_id'];
         $site->fields           = $data['fields'];
+        $site->user_id          = Auth::user()->id;
         $site->save();
         return $site;
     }
