@@ -17,7 +17,8 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        $payments = Payment::with('currency', 'site')->get();
+        $user = Auth::user();
+        $payments = Payment::getPaymentsByRole($user)->with('currency', 'site', 'user')->get();
         return Inertia::render('Payment/Index', compact('payments'));
     }
 

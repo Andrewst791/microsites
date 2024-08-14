@@ -42,6 +42,11 @@ class Payment extends Model
         return $this->belongsTo(Site::class);
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     protected function getBuyerAttribute() : array
     {
         return [
@@ -51,5 +56,12 @@ class Payment extends Model
             'document_type'  => $this->fields_data['document_type'],
             'document'      => $this->fields_data['document'],
         ];
+    }
+
+    public function scopeGetPaymentsByRole($query, $user)
+    {
+        return $query->when($user->hasRole('Customer'), function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        });
     }
 }
