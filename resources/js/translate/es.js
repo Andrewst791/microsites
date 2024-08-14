@@ -65,5 +65,12 @@ const spanish = {
     do_payment: 'Realizar Pago',
     contact_data: 'Datos de Contacto',
     please_contact_data: 'Por favor diligencia los siguientes datos de contacto para realizar el pago',
+    summary_of_your_payment: 'Resumen de tu pago',
+    reference: 'Referencia',
+    amount_paid: 'Valor Pagado',
+    date_paid: 'Fecha de Pago',
+    status: 'Estado',
+    reference_to_pay: 'Referencia de pago',
+    data_payment: 'Datos adicionales del Pago',
 }
 export default spanish

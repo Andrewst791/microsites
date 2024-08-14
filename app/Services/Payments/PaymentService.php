@@ -50,7 +50,7 @@ class PaymentService implements PaymentServiceContract
             ->get($this->payment);
 
         return tap($this->payment)->update([
-            'status' => $response->status,
+            'status' => $response->status->value,
         ]);
     }
 }

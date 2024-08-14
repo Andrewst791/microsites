@@ -38,19 +38,18 @@ function getFieldsData (){
 }
 
 onMounted(() => {
-    console.log(form);
 });
 
 const save = () => {
     form.post(route('payments.store'), {
-        onError: () => {
-            console.log('error', form);
+        onError: (errors) => {
+            console.log('error', errors);
         },
-        onSuccess: () => {
-            console.log('success', form);
+        onSuccess: (success) => {
+            console.log('success', success);
         },
-        onFinish: () => {
-            console.log('finish', form);
+        onFinish: (response) => {
+            console.log('finish', response);
         }
     });
 }

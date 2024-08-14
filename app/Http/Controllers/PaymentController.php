@@ -39,7 +39,7 @@ class PaymentController extends Controller
 
         $response = $paymentService->create($payment->buyer);
         if ($response->status === 'exception') {
-            return back()->withErrors(['message' => $response->message]);
+            return redirect()->back()->withErrors(['message' => $response->message]);
         }
 
         return Inertia::location($response->url);
@@ -47,6 +47,7 @@ class PaymentController extends Controller
 
     public function show(Payment $payment) : Response
     {
+        $payment->load('site');
         $paymentService = app(PaymentService::class, [
             'payment' => $payment,
             'gateway' => $payment->gateway,
