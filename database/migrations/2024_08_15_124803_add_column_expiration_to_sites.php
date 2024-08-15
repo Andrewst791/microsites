@@ -23,7 +23,6 @@ return new class extends Migration
     {
         Schema::table('sites', function (Blueprint $table) {
             $table->dropColumn('payment_expiration');
-            $table->dropColumn('expires_at');
         });
     }
 };
