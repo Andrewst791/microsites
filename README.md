@@ -3,7 +3,7 @@
 <p align="center"></p>
 </p>
 
-## Microsites | PlaceToGrow
+## Microsites
 Autor:
 Andrés Guerrero Guerrero
 
@@ -20,7 +20,6 @@ Andrés Guerrero Guerrero
 - **Gestiones de roles y permisos**: Spatie
 - **Tipado**: Uso de tipado estricto en la declaración de funciones y métodos.
 
-###Diagrama entidad-relación
 ---
 
 ## Instalación en Docker
