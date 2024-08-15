@@ -17,6 +17,7 @@ class UpdateAction
         $site->category_id      = $data['category_id'];
         $site->currency_id      = $data['currency_id'];
         $site->fields           = $data['fields'];
+        $site->payment_expiration   = $data['payment_expiration'];
         $site->save();
         return $site;
     }

@@ -48,7 +48,8 @@ const form = useForm({
     document_type: props.site.document_type,
     category_id: props.site.category_id,
     currency_id: props.site.currency_id,
-    expires_at: props.site.expires_at,
+    // expires_at: props.site.expires_at,
+    payment_expiration: props.site.payment_expiration,
     site_type: props.site.site_type,
     logo: props.site.logo,
     fields: props.site.fields ?? {"name": {"type": "TEXT", "label": "Nombres", "required": true, "placeholder": "Nombres"}, "email": {"type": "EMAIL", "label": "Email", "required": true, "placeholder": "Email"}, "document": {"type": "TEXT", "label": "Documento", "required": true, "placeholder": "Documento"}, "last_name": {"type": "TEXT", "label": "Apellidos", "required": true, "placeholder": "Apellidos"}, "document_type": {"type": "TEXT", "label": "Tipo Documento", "required": true, "placeholder": "Tipo Documento"}},
@@ -255,13 +256,13 @@ const tabs = [
                                     <!-- Floating Input -->
                                     <div class="relative">
                                         <Input :data="{
-                                            id: 'expires_at',
-                                            label: $t('expires_at'),
-                                            placeholder: $t('expires_at'),
-                                            type: 'date'
+                                            id: 'payment_expiration',
+                                            label: $t('payment_expiration'),
+                                            placeholder: $t('payment_expiration'),
+                                            type: 'number'
                                         }"
-                                               :error="form.errors.expires_at"
-                                               v-model="form.expires_at"
+                                               :error="form.errors.payment_expiration"
+                                               v-model="form.payment_expiration"
                                                :readonly="canEdit"></Input>
                                     </div>
                                     <!-- End Floating Input -->

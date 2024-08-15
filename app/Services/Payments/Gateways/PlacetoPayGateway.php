@@ -82,7 +82,6 @@ class PlacetoPayGateway implements PaymentGateway
     {
         try {
             $response = Http::post($this->config['url'], $this->data);
-//            dd($this->config['url'], json_encode($this->data));
             if ($response->successful()) {
                 Log::info('PlacetoPay response succesful', $response->json());
                 $data = $response->json();
