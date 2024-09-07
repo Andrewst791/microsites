@@ -6,6 +6,7 @@ use App\Actions\Site\StoreAction;
 use App\Actions\Site\UpdateAction;
 use App\Constants\DocumentTypes;
 use App\Constants\InputType;
+use App\Constants\PermissionSlug;
 use App\Constants\SiteTypes;
 use App\Models\Category;
 use App\Models\Currency;
@@ -13,12 +14,23 @@ use App\Models\Site;
 use App\Http\Requests\StoreSiteRequest;
 use App\Http\Requests\UpdateSiteRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class SiteController extends Controller
+class SiteController extends Controller implements HasMiddleware
 {
+    public static function middleware() : array
+    {
+        return [
+            new Middleware('permission:' . PermissionSlug::SITES_VIEW, only: ['index']),
+            new Middleware('permission:' . PermissionSlug::SITES_CREATE, only: ['create', 'store']),
+            new Middleware('permission:' . PermissionSlug::SITES_UPDATE, only: ['edit', 'update']),
+            new Middleware('permission:' . PermissionSlug::SITES_DELETE, only: ['destroy']),
+        ];
+    }
     public function index() : Response
     {
         $user = Auth::user();

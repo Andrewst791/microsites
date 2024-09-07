@@ -25,6 +25,8 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained();
             $table->timestamp('enabled_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->foreignId('user_id')->constrained();
+            $table->unsignedBigInteger('user_created_id')->comment('From users');
+            $table->foreign('user_created_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
