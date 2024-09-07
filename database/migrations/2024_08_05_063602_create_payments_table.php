@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('description', 100)->nullable();
             $table->float('amount');
             $table->foreignId('currency_id')->constrained();
-            $table->enum('status', PaymentStatus::toArray());
+            $table->enum('status', PaymentStatus::toArray())->index();
             $table->enum('gateway', PaymentGateway::toArray());
             $table->unsignedInteger('process_identifier')->nullable();
             $table->dateTime('expiration')->nullable();
