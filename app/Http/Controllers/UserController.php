@@ -2,21 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\PermissionSlug;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public static function middleware() : array
+    {
+        return [
+            new Middleware('permission:' . PermissionSlug::USERS_VIEW, only: ['index']),
+            new Middleware('permission:' . PermissionSlug::USERS_CREATE, only: ['create', 'store']),
+            new Middleware('permission:' . PermissionSlug::USERS_UPDATE, only: ['edit', 'update']),
+            new Middleware('permission:' . PermissionSlug::USERS_DELETE, only: ['destroy']),
+        ];
+    }
+
     public function index(Request $request) : Response
     {
         $users = User::with('roles')
@@ -28,9 +38,6 @@ class UserController extends Controller
         return Inertia::render('User/Index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create() : Response
     {
         $user = [
@@ -44,18 +51,13 @@ class UserController extends Controller
         return Inertia::render('User/Save', compact('user', 'roles', 'canEdit'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(StoreUserRequest $request, UserService $userService) : RedirectResponse
     {
         $userService->register($request->validated());
         return redirect()->to(route('users.index'));
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(User $user) : Response
     {
         $user->role = count($user->roles) ? $user->roles()->first()->name : null;
@@ -64,9 +66,6 @@ class UserController extends Controller
         return Inertia::render('User/Save', compact('user', 'roles', 'canEdit'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
         $user->role = count($user->roles) ? $user->roles()->first()->name : null;
@@ -75,18 +74,12 @@ class UserController extends Controller
         return Inertia::render('User/Save', compact('user', 'roles', 'canEdit'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateUserRequest $request, User $user, UserService $userService) : RedirectResponse
     {
         $userService->update($user, $request->validated());
         return redirect()->to(route('users.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $user) : RedirectResponse
     {
         $user->delete();

@@ -2,15 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\PermissionSlug;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class CategoryController extends Controller
+class CategoryController extends Controller implements HasMiddleware
 {
+    public static function middleware() : array
+    {
+        return [
+            new Middleware('permission:' . PermissionSlug::CATEGORIES_VIEW, only: ['index']),
+            new Middleware('permission:' . PermissionSlug::CATEGORIES_CREATE, only: ['create', 'store']),
+            new Middleware('permission:' . PermissionSlug::CATEGORIES_UPDATE, only: ['edit', 'update']),
+            new Middleware('permission:' . PermissionSlug::CATEGORIES_DELETE, only: ['destroy']),
+        ];
+    }
     public function index() : Response
     {
         $categories = Category::all();
