@@ -25,10 +25,10 @@ class SiteController extends Controller implements HasMiddleware
     public static function middleware() : array
     {
         return [
-            new Middleware('permission:' . PermissionSlug::SITES_VIEW, only: ['index']),
-            new Middleware('permission:' . PermissionSlug::SITES_CREATE, only: ['create', 'store']),
-            new Middleware('permission:' . PermissionSlug::SITES_UPDATE, only: ['edit', 'update']),
-            new Middleware('permission:' . PermissionSlug::SITES_DELETE, only: ['destroy']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::SITES_VIEW_ANY), only: ['index']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::SITES_CREATE), only: ['create', 'store']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::SITES_UPDATE), only: ['edit', 'update']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::SITES_DELETE), only: ['destroy']),
         ];
     }
     public function index() : Response

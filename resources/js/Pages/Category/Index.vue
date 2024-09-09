@@ -16,8 +16,8 @@ const props = defineProps({
 const createCategory = () => {
     form.get(route('categories.create'));
 }
-const showEdit = (site_id) => {
-    form.get(route('categories.edit', {site: site_id}));
+const showEdit = (category_id) => {
+    form.get(route('categories.edit', {category: category_id}));
 }
 
 const deleteCategory = (site_id) => {

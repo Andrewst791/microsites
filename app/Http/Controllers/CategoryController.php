@@ -17,10 +17,10 @@ class CategoryController extends Controller implements HasMiddleware
     public static function middleware() : array
     {
         return [
-            new Middleware('permission:' . PermissionSlug::CATEGORIES_VIEW, only: ['index']),
-            new Middleware('permission:' . PermissionSlug::CATEGORIES_CREATE, only: ['create', 'store']),
-            new Middleware('permission:' . PermissionSlug::CATEGORIES_UPDATE, only: ['edit', 'update']),
-            new Middleware('permission:' . PermissionSlug::CATEGORIES_DELETE, only: ['destroy']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::CATEGORIES_VIEW_ANY), only: ['index']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::CATEGORIES_CREATE), only: ['create', 'store']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::CATEGORIES_UPDATE), only: ['edit', 'update']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::CATEGORIES_DELETE), only: ['destroy']),
         ];
     }
     public function index() : Response
@@ -29,14 +29,14 @@ class CategoryController extends Controller implements HasMiddleware
         return Inertia::render('Category/Index', compact('categories'));
     }
 
-    public function create()
+    public function create() : Response
     {
         $category = new Category();
         $canEdit = true;
         return Inertia::render('Category/Save', compact('category', 'canEdit'));
     }
 
-    public function store(StoreCategoryRequest $request)
+    public function store(StoreCategoryRequest $request) : RedirectResponse
     {
         Category::create($request->validated());
         return redirect()->back();

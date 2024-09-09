@@ -74,6 +74,7 @@ const spanish = {
     data_payment: 'Datos adicionales del Pago',
     my_payments: 'Mis Pagos',
     list_payments: 'Listado de pagos realizados en los diferentes sitios',
-    payment_expiration: 'Expiración'
+    payment_expiration: 'Expiración',
+    list_of_roles: 'Listado de Roles',
 }
 export default spanish

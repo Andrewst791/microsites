@@ -3,6 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {Head, useForm} from "@inertiajs/vue3";
 import Input from "@/Components/Preline/Input.vue";
 import Swal from "sweetalert2";
+import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
     category: {
@@ -28,16 +29,21 @@ const save = () => {
                     html: `Se ha actualizado correctamente el sitio <b>${props.category.name}</b>`,
                     icon: "success"
                 });
+                router.visit(route('categories.index'), {
+                    method: 'get',
+                });
             }
         });
     } else {
         form.post(route('categories.store'), {
             onFinish: () => {
-                console.log(form.errors);
                 Swal.fire({
                     title: 'Ok!',
                     html: `Se ha creado correctamente el sitio <b>${form.name}</b>`,
                     icon: "success"
+                });
+                router.visit(route('categories.index'), {
+                    method: 'get',
                 });
             }
         });

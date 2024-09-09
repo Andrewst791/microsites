@@ -20,10 +20,10 @@ class UserController extends Controller implements HasMiddleware
     public static function middleware() : array
     {
         return [
-            new Middleware('permission:' . PermissionSlug::USERS_VIEW, only: ['index']),
-            new Middleware('permission:' . PermissionSlug::USERS_CREATE, only: ['create', 'store']),
-            new Middleware('permission:' . PermissionSlug::USERS_UPDATE, only: ['edit', 'update']),
-            new Middleware('permission:' . PermissionSlug::USERS_DELETE, only: ['destroy']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::USERS_VIEW_ANY), only: ['index']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::USERS_CREATE), only: ['create', 'store']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::USERS_UPDATE), only: ['edit', 'update']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::USERS_DELETE), only: ['destroy']),
         ];
     }
 
