@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
@@ -9,14 +11,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -27,10 +22,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     Route::resource('categories', CategoryController::class);
     Route::resource('sites', SiteController::class);
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
+
+    Route::get('sites/{slugId}/payment', [SiteController::class, 'payment'])->name('sites.payment');
+
+    Route::resource('payments', PaymentController::class);
+//    Route::get('payments/{payment}', [PaymentController::class, 'store'])->name('payments.store');
+//    Route::post('payments', [PaymentController::class, 'store'])->name('payments.store');
 });
 
 require __DIR__ . '/auth.php';

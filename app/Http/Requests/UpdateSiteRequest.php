@@ -25,20 +25,23 @@ class UpdateSiteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'          => 'required|string|max:100',
-            'slug'          => 'required|string|max:50',
-            'document_type' => [
+            'id'                    => 'exists:sites,id',
+            'name'                  => 'required|string|max:100',
+            'slug'                  => 'required|string|max:50',
+            'document_type'         => [
                 'required',
                 Rule::in(array_column(DocumentTypes::cases(), 'name'))
             ],
-            'document'      => 'required|string|max:20',
-            'category_id'   => 'required|integer|exists:categories,id',
-            'currency_id'   => 'required|integer|exists:currencies,id',
-            'expires_at'    => 'nullable|date',
-            'site_type'     => ['required',
+            'document'              => 'required|string|max:20',
+            'category_id'           => 'required|integer|exists:categories,id',
+            'currency_id'           => 'required|integer|exists:currencies,id',
+            'expires_at'            => 'nullable|date',
+            'site_type'             => ['required',
                 Rule::in(array_column(SiteTypes::cases(), 'name'))
             ],
-            'logo'          => 'nullable|url',
+            'fields'                => 'nullable|array',
+            'logo'                  => 'nullable|url',
+            'payment_expiration'    =>  'required',
         ];
     }
 }

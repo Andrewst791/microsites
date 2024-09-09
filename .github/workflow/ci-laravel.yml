@@ -1,0 +1,96 @@
+name: Microsites CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - feature/*
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: laravel
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
+      - name: Check PHP Version
+        run: php -v
+
+      - name: Install Composer Dependencies
+        run: composer install
+
+      - name: Dump Autoload
+        run: composer dump-autoload
+
+      - name: Copy Environment File
+        run: cp .env.example .env
+
+      - name: Set environment variables
+        run: |
+          echo "PLACETOPAY_LOGIN=${{ secrets.PLACETOPAY_LOGIN }}" >> .env
+          echo "PLACETOPAY_SECRET_KEY=${{ secrets.PLACETOPAY_SECRET_KEY }}" >> .env
+          echo "PLACETOPAY_URL=${{ secrets.PLACETOPAY_URL }}" >> .env
+
+      - name: Generate Application Key
+        run: php artisan key:generate
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: '20'
+
+      - name: Install NPM Dependencies
+        run: npm install
+
+      - name: Build Assets with Vite
+        run: npm run build
+
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in {1..30}; do
+            if mysqladmin ping -h"127.0.0.1" --silent; then
+              echo "MySQL is up and running!"
+              break
+            fi
+            echo "Waiting for MySQL..."
+            sleep 5
+          done
+
+      - name: Migrate Database
+        run: php artisan migrate --force
+
+      - name: Run Laravel Pint
+        run: ./vendor/bin/pint
+
+      - name: List Files in Directory
+        run: ls -la app/Services/Payments/Gateways
+
+      - name: Run tests with coverage
+        run: |
+          mkdir -p results
+          php artisan test --log-junit results/test-results.xml --coverage-clover results/coverage.xml

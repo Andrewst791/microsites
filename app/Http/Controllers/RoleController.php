@@ -2,63 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\PermissionSlug;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Inertia\Inertia;
+use Inertia\Response;
 use Spatie\Permission\Models\Role;
 
-class RoleController extends Controller
+class RoleController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public static function middleware() : array
     {
-        //
+        return [
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::ROLES_VIEW_ANY), only: ['index']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::ROLES_CREATE), only: ['create', 'store']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::ROLES_UPDATE), only: ['edit', 'update']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(PermissionSlug::ROLES_DELETE), only: ['destroy']),
+        ];
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function index() : Response
+    {
+        $roles = Role::with('permissions')->get();
+        return Inertia::render('Role/Index', compact('roles'));
+    }
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreRoleRequest $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Role $role)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Role $role)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateRoleRequest $request, Role $role)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Role $role)
     {
         //
